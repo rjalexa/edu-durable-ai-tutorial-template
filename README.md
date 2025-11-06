@@ -2,7 +2,7 @@
 
 This repository contains the code that goes along with our [`Adding Durability to AI Applications with Temporal`](https://learn.temporal.io/tutorials/ai/building-durable-ai-applications/durable-ai-with-temporal/) tutorial. Please reference that tutorial to see how to use this repository.
 
-To see the completed code after following the tutorial, reference the `completed_code` directory.
+To see the completed code after following the tutorial, reference the `temporal_code` directory.
 
 ## Prerequisites
 
