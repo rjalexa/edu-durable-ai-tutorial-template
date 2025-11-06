@@ -1,0 +1,14 @@
+from dataclasses import dataclass
+
+@dataclass
+class LLMCallInput:
+    prompt: str
+
+@dataclass
+class PDFGenerationInput:
+    content: str
+    filename: str = "research_pdf.pdf"
+
+@dataclass
+class GenerateReportInput:
+    prompt: str

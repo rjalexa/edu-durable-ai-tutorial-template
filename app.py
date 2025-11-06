@@ -1,0 +1,61 @@
+import os
+from dotenv import load_dotenv
+from litellm import completion
+from litellm.types.utils import ModelResponse
+from models import LLMCallInput
+from models import LLMCallInput, PDFGenerationInput
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+
+load_dotenv(override=True) # Reads your .env file and loads your environment variables
+
+# Get LLM_API_KEY environment variable
+LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-4o")
+LLM_API_KEY = os.getenv("LLM_API_KEY", None)
+
+def llm_call(input: LLMCallInput) -> ModelResponse:
+    return completion(
+        model=LLM_MODEL,
+        api_key=LLM_API_KEY,
+        messages=[{"content": input.prompt, "role": "user"}],
+    )
+
+def create_pdf(input: PDFGenerationInput) -> str:
+    doc = SimpleDocTemplate(input.filename, pagesize=letter)
+
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        "CustomTitle",
+        parent=styles["Heading1"],
+        fontSize=24,
+        spaceAfter=30,
+        alignment=1,
+    )
+
+    story: list[Flowable] = []
+    title = Paragraph("Research Report", title_style)
+    story.append(title)
+    story.append(Spacer(1, 20))
+
+    paragraphs = input.content.split("\n\n")
+    for para in paragraphs:
+        if para.strip():
+            p = Paragraph(para.strip(), styles["Normal"])
+            story.append(p)
+            story.append(Spacer(1, 12))
+
+    doc.build(story)
+    return input.filename
+
+# Make the API call
+print("Welcome to the Research Report Generator!")
+prompt = input("Enter your research topic or question: ")
+llm_input = LLMCallInput(prompt=prompt)
+result = llm_call(llm_input)
+
+# Extract the text content
+content = result.choices[0].message.content
+print(content)
+
+pdf_filename = create_pdf(PDFGenerationInput(content=content, filename="research_report.pdf"))
