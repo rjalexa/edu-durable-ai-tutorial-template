@@ -10,10 +10,13 @@ wheels/
 # Virtual environments
 .venv
 research_output.pdf
-worker.log
+
+# Logs
+logs/
 
 # Development files
 .github
 .ruff_cache
 .python-version
-temporal_code
+
+reports/

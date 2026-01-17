@@ -30,12 +30,12 @@ temporal-stop:
 # Run the worker
 worker:
 	@echo "Starting Temporal worker..."
-	python worker.py
+	python temporal/worker.py
 
 # Run the client
 client:
 	@echo "Starting client..."
-	python client.py
+	python temporal/client.py
 
 # Run everything: temporal server, worker, and client
 run:
@@ -46,24 +46,25 @@ run:
 	echo "Waiting for Temporal server to be ready..."; \
 	sleep 5; \
 	echo "Starting worker in background..."; \
-	python worker.py > worker.log 2>&1 & \
+	mkdir -p logs; \
+	python temporal/worker.py > logs/worker.log 2>&1 & \
 	WORKER_PID=$$!; \
 	echo "Worker started (PID: $$WORKER_PID)"; \
 	echo "Waiting for worker to initialize..."; \
 	sleep 3; \
 	echo "Starting client..."; \
-	python client.py; \
+	python temporal/client.py; \
 	echo ""; \
 	echo "Cleaning up background processes..."; \
 	kill $$WORKER_PID 2>/dev/null || true; \
 	kill $$TEMPORAL_PID 2>/dev/null || true; \
-	echo "Done. Check worker.log for worker output."
+	echo "Done. Check logs/worker.log for worker output."
 
 # Clean up generated files
 clean:
 	@echo "Cleaning up..."
 	@rm -f *.pdf
-	@rm -f worker.log
+	@rm -rf logs
 	@rm -rf __pycache__
 	@rm -rf .ruff_cache
 	@echo "Clean complete."

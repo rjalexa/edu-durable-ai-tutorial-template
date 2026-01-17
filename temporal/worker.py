@@ -1,11 +1,11 @@
 import asyncio
 import concurrent.futures
 
-from activities import create_pdf, llm_call
+from temporal.activities import create_pdf, llm_call
 from temporalio.client import Client
 from temporalio.contrib.pydantic import pydantic_data_converter
 from temporalio.worker import Worker
-from workflow import GenerateReportWorkflow
+from temporal.workflow import GenerateReportWorkflow
 
 
 async def run_worker():

@@ -4,8 +4,8 @@ from temporalio.common import RetryPolicy
 import re
 
 with workflow.unsafe.imports_passed_through():
-    from activities import create_pdf, llm_call
-    from models import (
+    from temporal.activities import create_pdf, llm_call
+    from temporal.models import (
         GenerateReportInput,
         LLMCallInput,
         PDFGenerationInput,

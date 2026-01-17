@@ -1,10 +1,10 @@
 import asyncio
 import uuid
 
-from models import GenerateReportInput # dataclass for Workflow input
+from temporal.models import GenerateReportInput # dataclass for Workflow input
 from temporalio.client import Client #  Connects to the Temporal service to start Workflows
 from temporalio.contrib.pydantic import pydantic_data_converter
-from workflow import GenerateReportWorkflow # Your Workflow definition
+from temporal.workflow import GenerateReportWorkflow # Your Workflow definition
 
 async def main():
     # Connect to the Temporal service
