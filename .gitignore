@@ -11,3 +11,9 @@ wheels/
 .venv
 research_output.pdf
 worker.log
+
+# Development files
+.github
+.ruff_cache
+.python-version
+temporal_code

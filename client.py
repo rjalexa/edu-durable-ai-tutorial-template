@@ -27,7 +27,7 @@ async def main():
     
    # Start the Workflow execution
     handle = await client.start_workflow(
-        GenerateReportWorkflow, # The Workflow method to execute
+        GenerateReportWorkflow.run, # The Workflow method to execute
         research_input,
         id=f"generate-researdch-report-workflow-{uuid.uuid4()}",
         task_queue="research", # task queue your Worker is polling
