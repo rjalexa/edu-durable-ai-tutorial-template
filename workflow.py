@@ -1,5 +1,6 @@
 from datetime import timedelta
 from temporalio import workflow
+from temporalio.common import RetryPolicy
 
 with workflow.unsafe.imports_passed_through():
     from activities import create_pdf, llm_call
@@ -8,7 +9,6 @@ with workflow.unsafe.imports_passed_through():
         LLMCallInput,
         PDFGenerationInput,
     )
-
 
 @workflow.defn
 class GenerateReportWorkflow:
@@ -32,6 +32,11 @@ class GenerateReportWorkflow:
             create_pdf,
             pdf_generation_input,
             start_to_close_timeout=timedelta(seconds=20),
+            retry_policy=RetryPolicy(
+                initial_interval=timedelta(seconds=2),
+                maximum_attempts=3,
+                backoff_coefficient=3.0,
+            ),
         )
 
         return f"Successfully created research report PDF: {pdf_filename}"

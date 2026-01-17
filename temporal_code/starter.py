@@ -1,9 +1,12 @@
 import asyncio
 import uuid
 
-from models import GenerateReportInput # dataclass for Workflow input
-from temporalio.client import Client #  Connects to the Temporal service to start Workflows
-from workflow import GenerateReportWorkflow # Your Workflow definition
+from models import GenerateReportInput  # dataclass for Workflow input
+from temporalio.client import (
+    Client,
+)  #  Connects to the Temporal service to start Workflows
+from workflow import GenerateReportWorkflow  # Your Workflow definition
+
 
 async def main():
     # Connect to the Temporal service
@@ -16,21 +19,22 @@ async def main():
     if not prompt:
         prompt = "Give me 5 fun and fascinating facts about tardigrades."
         print(f"No prompt entered. Using default: {prompt}")
-    
+
     # The input data for your Workflow, including the prompt and API key
     research_input = GenerateReportInput(prompt=prompt)
 
     # Start the Workflow execution
     handle = await client.start_workflow(
-        GenerateReportWorkflow, # The Workflow method to execute
+        GenerateReportWorkflow,  # The Workflow method to execute
         research_input,
         id=f"generate-researdch-report-workflow-{uuid.uuid4()}",
-        task_queue="research", # task queue your Worker is polling
+        task_queue="research",  # task queue your Worker is polling
     )
 
     print(f"Started workflow. Workflow ID: {handle.id}, RunID {handle.result_run_id}")
     result = await handle.result()
     print(f"Result: {result}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

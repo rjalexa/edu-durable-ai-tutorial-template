@@ -10,3 +10,8 @@ dependencies = [
     "reportlab>=4.4.4",
     "temporalio>=1.18.1",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.13",
+]

@@ -3,17 +3,18 @@ from dotenv import load_dotenv
 from litellm import completion
 from litellm.types.utils import ModelResponse
 from models import LLMCallInput
-from models import LLMCallInput, PDFGenerationInput
+from models import PDFGenerationInput
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from temporalio import activity 
+from temporalio import activity
 
-load_dotenv(override=True) # Reads your .env file and loads your environment variables
+load_dotenv(override=True)  # Reads your .env file and loads your environment variables
 
 # Get LLM_API_KEY environment variable
 LLM_MODEL = os.getenv("LLM_MODEL", "openai/gpt-4o")
 LLM_API_KEY = os.getenv("LLM_API_KEY", None)
+
 
 @activity.defn
 def llm_call(input: LLMCallInput) -> ModelResponse:
@@ -22,6 +23,7 @@ def llm_call(input: LLMCallInput) -> ModelResponse:
         api_key=LLM_API_KEY,
         messages=[{"content": input.prompt, "role": "user"}],
     )
+
 
 @activity.defn
 def create_pdf(input: PDFGenerationInput) -> str:

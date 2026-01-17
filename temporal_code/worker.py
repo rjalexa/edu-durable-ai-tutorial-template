@@ -6,6 +6,7 @@ from temporalio.client import Client
 from temporalio.worker import Worker
 from workflow import GenerateReportWorkflow
 
+
 async def run_worker():
     # Connect to Temporal service
     client = await Client.connect("localhost:7233", namespace="default")
@@ -15,14 +16,15 @@ async def run_worker():
         # Configure the Worker
         worker = Worker(
             client,
-            task_queue="research", # Task queue that your Worker is listening to.
-            workflows=[GenerateReportWorkflow], # Register the Workflow on your Worker
-            activities=[llm_call, create_pdf], # Register the Activities on your Worker
-            activity_executor=activity_executor # Thread pool that allows Activities to run concurrently
+            task_queue="research",  # Task queue that your Worker is listening to.
+            workflows=[GenerateReportWorkflow],  # Register the Workflow on your Worker
+            activities=[llm_call, create_pdf],  # Register the Activities on your Worker
+            activity_executor=activity_executor,  # Thread pool that allows Activities to run concurrently
         )
 
-        print(f"Starting the worker....")
+        print("Starting the worker....")
         await worker.run()
+
 
 if __name__ == "__main__":
     asyncio.run(run_worker())
