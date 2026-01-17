@@ -3,13 +3,18 @@ import concurrent.futures
 
 from activities import create_pdf, llm_call
 from temporalio.client import Client
+from temporalio.contrib.pydantic import pydantic_data_converter
 from temporalio.worker import Worker
 from workflow import GenerateReportWorkflow
 
 
 async def run_worker():
     # Connect to Temporal service
-    client = await Client.connect("localhost:7233", namespace="default")
+    client = await Client.connect(
+        "localhost:7233",
+        namespace="default",
+        data_converter=pydantic_data_converter,
+    )
 
     # Create a thread pool for running Activities
     with concurrent.futures.ThreadPoolExecutor(max_workers=100) as activity_executor:

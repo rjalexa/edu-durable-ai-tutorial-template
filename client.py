@@ -3,11 +3,16 @@ import uuid
 
 from models import GenerateReportInput # dataclass for Workflow input
 from temporalio.client import Client #  Connects to the Temporal service to start Workflows
+from temporalio.contrib.pydantic import pydantic_data_converter
 from workflow import GenerateReportWorkflow # Your Workflow definition
 
 async def main():
     # Connect to the Temporal service
-    client = await Client.connect("localhost:7233", namespace="default")
+    client = await Client.connect(
+        "localhost:7233",
+        namespace="default",
+        data_converter=pydantic_data_converter,
+    )
 
     # Get user input for research topic
     print("Welcome to the Research Report Generator!")
