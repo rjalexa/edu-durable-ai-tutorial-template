@@ -9,7 +9,7 @@ class LLMCallInput:
 @dataclass
 class PDFGenerationInput:
     content: str
-    filename: str = "research_pdf.pdf"
+    filename: str = "research_output.pdf"
 
 
 @dataclass

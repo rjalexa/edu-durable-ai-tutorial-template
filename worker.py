@@ -16,7 +16,7 @@ async def run_worker():
         # Configure the Worker
         worker = Worker(
             client,
-            task_queue="durable",  # Task queue that your Worker is listening to.
+            task_queue="research",  # Task queue that your Worker is listening to.
             workflows=[GenerateReportWorkflow],  # Register the Workflow on your Worker
             activities=[llm_call, create_pdf],  # Register the Activities on your Worker
             activity_executor=activity_executor,  # Thread pool that allows Activities to run concurrently
