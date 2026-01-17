@@ -51,18 +51,3 @@ def create_pdf(input: PDFGenerationInput) -> str:
 
     doc.build(story)
     return input.filename
-
-
-# Make the API call
-print("Welcome to the Research Report Generator!")
-prompt = input("Enter your research topic or question: ")
-llm_input = LLMCallInput(prompt=prompt)
-result = llm_call(llm_input)
-
-# Extract the text content
-content = result.choices[0].message.content
-print(content)
-
-pdf_filename = create_pdf(
-    PDFGenerationInput(content=content, filename="research_report.pdf")
-)

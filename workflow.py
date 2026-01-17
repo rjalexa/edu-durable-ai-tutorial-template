@@ -10,6 +10,7 @@ with workflow.unsafe.imports_passed_through():
         PDFGenerationInput,
     )
 
+
 @workflow.defn
 class GenerateReportWorkflow:
     @workflow.run
